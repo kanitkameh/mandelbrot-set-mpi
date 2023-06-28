@@ -81,7 +81,7 @@ void master(int workers, Color* palette){
     printf("init master\n");
     for(int i=0;i<(workers-1);i++){
         MPI_Recv(recv, sizeof(Color)*size*X, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &status);
-        int source = status.MPI_SOURCE - 1;
+        int source = status.MPI_SOURCE;
         printf("Received from %d\n", source);
         //TODO parse line by line
         for(int y =0;y<size;y++){
@@ -89,6 +89,10 @@ void master(int workers, Color* palette){
                 Color c = recv[x*size+y];
 
                 int i = source-1 + ((workers-1) * y);
+                if(i>=Y){
+                    continue;
+                }
+
                 colors[i][x][0] = c.r;
                 colors[i][x][1] = c.g;
                 colors[i][x][2] = c.b;

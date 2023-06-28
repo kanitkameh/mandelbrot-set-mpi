@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#$ -N mandelbrotkamen
+#$ -cwd
+#$ -m bea
+#$ -M kanitkameh@gmail.com
+#$ -l h_rt=1:0:0
+
+#$ -pe ompix8 32
+module load openmpi
+mpirun -np 32 a.out > ./output/stdout
